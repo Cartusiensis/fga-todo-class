@@ -7,12 +7,15 @@ class List extends Component {
             <div className="list">
                 {this.props.list.map((item) => {
                     return (
-                        <Item item={item} />
-                    )
+                        <Item 
+                            item={item} 
+                            deleteItem={this.props.deleteItem}
+                        />
+                    );
                 })}
             </div>
-        )
+        );
     }
 }
 
-export default List
+export default List;
