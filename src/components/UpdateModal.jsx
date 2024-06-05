@@ -1,15 +1,24 @@
 import React, { Component } from "react";
 
-class ListForm extends Component {
+class UpdateModal extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: '',
+            name: this.props.item.name,
+            id: this.props.item.id,
             err: false
         };
     }
 
-    handleChangeName = (event) => {
+    showModal = () => {
+        if (this.props.item.edit === true) {
+            return {display: 'block'};
+        } else {
+            return {display: 'none'};
+        }
+    };
+
+    handleUpdateName = (event) => {
         this.setState({ name: event.target.value });
     };
 
@@ -20,32 +29,35 @@ class ListForm extends Component {
             this.setState({ err: true });
         } else {
             this.setState({ err: false });
-            this.props.addItem(this.state.name);
-            this.setState({ name: ''});
+            this.props.updateItem(this.state.id, this.state.name);
         }
     }
 
     render() {
         return (
-            <div>
+            <div className="modal" style={this.showModal()}>
+                <div className="modal-content">
+                <button 
+                    className="close" 
+                    onClick={() => this.props.toggleModal(this.props.item.id, false)}
+                >&times;</button>
                 <form onSubmit={this.handleSubmit}>
                     <section>
                         <div className="input-wrapper">
                             <input 
                                 type="text" 
                                 value={this.state.name}
-                                name="name"
-                                className="input"
-                                onChange={this.handleChangeName}
+                                onChange={this.handleUpdateName}
                             />
                             {this.state.err && <p className="error">Can't be empty!!!</p>}
                         </div>
-                        <button className="add">Add City</button>
+                        <button type="submit">Change</button>
                     </section>
                 </form>
+                </div>
             </div>
         )
     }
 }
 
-export default ListForm;
+export default UpdateModal;

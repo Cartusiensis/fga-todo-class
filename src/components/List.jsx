@@ -10,6 +10,8 @@ class List extends Component {
                         <Item 
                             item={item} 
                             deleteItem={this.props.deleteItem}
+                            updateItem={this.props.updateItem}
+                            toggleModal={this.props.toggleModal}
                         />
                     );
                 })}

@@ -40,7 +40,7 @@ class App extends Component {
 
     const pushItem = this.state.list.concat(newItem);
     this.setState({ list: pushItem });
-  }
+  };
 
   deleteItem = (itemId) => {
     const deleteItem = this.state.list.filter((item) => {
@@ -48,6 +48,36 @@ class App extends Component {
     });
 
     this.setState({ list: deleteItem });
+  };
+
+  updateItem = (itemId, itemName) => {
+    if (itemName === '') {
+      return '';
+    }
+
+    const updateItem = this.state.list.map((item) => {
+      if (item.id === itemId) {
+        return {
+          ...item,
+          name: itemName,
+          edit: false
+        };
+      }
+      return item;
+    })
+
+    this.setState({ list: updateItem })
+  };
+
+  toggleModal = (itemId, isEdit) => {
+    const showItem = this.state.list.map((item) => {
+      if (item.id === itemId) {
+        item.edit = isEdit;
+      }
+      return item;
+    });
+
+    this.setState({ list: showItem })
   }
 
   render() {
@@ -59,6 +89,8 @@ class App extends Component {
         <List 
           list={this.state.list} 
           deleteItem={this.deleteItem}
+          updateItem={this.updateItem}
+          toggleModal={this.toggleModal}
         />
       </div>
     );
