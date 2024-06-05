@@ -5,6 +5,7 @@ class ListForm extends Component {
         super(props);
         this.state = {
             name: '',
+            err: false
         };
     }
 
@@ -15,8 +16,13 @@ class ListForm extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
 
-        this.props.addItem(this.state.name);
-        this.setState({ name: ''});
+        if (this.state.name === '') {
+            this.setState({ err: true });
+        } else {
+            this.setState({ err: false });
+            this.props.addItem(this.state.name);
+            this.setState({ name: ''});
+        }
     }
 
     render() {
@@ -32,6 +38,7 @@ class ListForm extends Component {
                                 className="input"
                                 onChange={this.handleChangeName}
                             />
+                            {this.state.err && <p className="error">Can't be empty!!!</p>}
                         </div>
                         <button className="add">Add City</button>
                     </section>
